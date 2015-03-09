@@ -13,14 +13,15 @@ When working on a Unity project I've found myself in need of a [Queue](http://en
 
 My game uses a queue pretty intensively. When I want to send a message, it is enqueued to a queue and then subsequently dequeued by another thread, which serializes and sends it. When profiling, I've seen that the queue seems to be the source of the ocasional slow frame because it allocates with every message that is queued. The allocations can cause GC stalls at any time, but sometimes it doesnt doesnt explicitly appear on the profiler (for example, the profiler will show a long time in allocation itself and a reduction in total memory usage). 
 
-I wanted to replace the `ConcurrentQueue` with something that did not have any extra allocation overhead. A [circular buffer](http://en.wikipedia.org/wiki/Circular_buffer) is a fixed size data structure that could be used in this case. When searching for an existing implementation I remembered the [Disruptor](https://lmax-exchange.github.io/disruptor/); a high performance lockless queue. 
+I wanted to replace the `ConcurrentQueue` with something that did not have any extra allocation overhead. A [circular buffer](http://en.wikipedia.org/wiki/Circular_buffer) is a fixed size data structure that could be used in this case. When searching for an existing implementation I remembered the [Disruptor](https://lmax-exchange.github.io/disruptor/); a high performance lockless queue. Disruptor has many good qualities, but in my case, I only care about the lack of allocations. 
 
 There is a [.Net port](https://github.com/disruptor-net/Disruptor-net) of the Disruptor, but it is for .Net 4 which is not supported by Unity. I did not want to spend the time porting it and I have a very much simpler use case. I've implemented a very simple, self-contained version that uses the volatile long that is key to the implementation. 
-
 
 ## Benchmark
 
 I've created a simple benchmark in Test.cs for my simple single producer/single consumer RingBuffer.Each frame a batch of random integers are queued. The values are dequeued and discarded by the other thread. 
+
+Note: this benchmark is not intended as an example usecase or to take performance, but allowed me to profile the game for allocations.
 
 ### Concurrent Queue
 
