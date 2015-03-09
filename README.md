@@ -26,7 +26,7 @@ I wanted to replace the `ConcurrentQueue` with something that did not have any e
 
 There is a [.Net port](https://github.com/disruptor-net/Disruptor-net) of the Disruptor, but it is for .Net 4 which is not supported by Unity. I did not want to spend the time porting it and I have a very much simpler use case. I don't need most of the functionality. 
 
-I've implemented a very simple, self-contained version that uses the volatile long that is key to the implementation. It is intended to be self contained; just drop the source into your project. This project is not intended to rival the functionality of disruptor-net but provide an easy to use drop in queue.
+I've implemented a very simple, self-contained version that uses the volatile long that is key to the implementation. It is intended to be self contained; just drop the source into your project. This project is not intended to rival the functionality of disruptor-net but provide an easy to use drop in queue. If you need a fully featured disruptor library then you should port or check out the forks incase someone has already done it.
 
 ## Benchmark
 
