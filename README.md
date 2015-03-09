@@ -30,12 +30,20 @@ There is a [.Net port](https://github.com/disruptor-net/Disruptor-net) of the Di
 
 I've created a simple benchmark in Test.cs for my simple single producer/single consumer RingBuffer. Each frame a batch of random integers are queued. The values are dequeued and discarded by the other thread. 
 
-Note: this benchmark is not intended as an example usecase or to take performance, but allowed me to profile the game for allocations.
+This benchmark is not intended as an example use case or to take performance, but allowed me to profile for allocations.
+
 
 ### Concurrent Queue
+Note:
+* the yellow spikes represent time spent on GC. 
+* All frames are longer than 5ms some frames are longer than 16ms. 
 
 ![ConcurrentQueue profile](https://raw.githubusercontent.com/dave-hillier/disruptor-unity3d/master/readme-img/ConcurrentQueueProfile.png)
 
 ### RingBuffer
+Note:
+* No yellow GC spikes
+* Most frames are under 5ms, no frames are longer than 16ms.
 
 ![RingBuffer profile](https://raw.githubusercontent.com/dave-hillier/disruptor-unity3d/master/readme-img/RingBufferProfile.png)
+
