@@ -4,6 +4,7 @@ Basic implementation of Disruptor for Unity3d. Only supports a single producer/s
 ## Usage
 
 Copy [RingBuffer.cs](https://github.com/dave-hillier/disruptor-unity3d/blob/master/DisruptorUnity3d/Assets/RingBuffer.cs)  into your Unity project's assets folder (or sub-folder) and use the generic `RingBuffer` class.
+For example:
 
 ```csharp
   var buffer = new RingBuffer<int>(8);
