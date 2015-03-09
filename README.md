@@ -1,5 +1,5 @@
 # disruptor-unity3d
-Basic implementation of Disruptor for Unity3d. Only supports a single producer/single consumer.
+Basic, self contained, implementation of Disruptor for Unity3d. Only supports a single producer/single consumer. 
 
 ## Usage
 
