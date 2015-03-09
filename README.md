@@ -5,6 +5,14 @@ Basic implementation of Disruptor for Unity3d. Only supports a single producer/s
 
 Copy [RingBuffer.cs](https://github.com/dave-hillier/disruptor-unity3d/blob/master/DisruptorUnity3d/Assets/RingBuffer.cs)  into your Unity project's assets folder (or sub-folder) and use the generic `RingBuffer` class.
 
+```csharp
+  var buffer = new RingBuffer<int>(8);
+  for (int i = 1; i < 6; ++i)
+    buffer.Enqueue(i);
+  for (int i = 1; i < 6; ++i)
+    buffer.Dequeue();
+```
+
 ## Motivation
 
 [Unity3d](http://unity3d.com/) is a game engine with Mono embedded in it. The version of Mono inside Unity is very old; it doesnt have the SGen collector and uses the [Boehm GC](http://www.hboehm.info/gc/). The Boehm GC does not have great performance. 
