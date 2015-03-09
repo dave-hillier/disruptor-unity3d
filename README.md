@@ -28,7 +28,7 @@ There is a [.Net port](https://github.com/disruptor-net/Disruptor-net) of the Di
 
 ## Benchmark
 
-I've created a simple benchmark in Test.cs for my simple single producer/single consumer RingBuffer.Each frame a batch of random integers are queued. The values are dequeued and discarded by the other thread. 
+I've created a simple benchmark in Test.cs for my simple single producer/single consumer RingBuffer. Each frame a batch of random integers are queued. The values are dequeued and discarded by the other thread. 
 
 Note: this benchmark is not intended as an example usecase or to take performance, but allowed me to profile the game for allocations.
 
