@@ -49,7 +49,6 @@
      <Compile Include="Assets\ConcurrentQueue.cs" />
      <Compile Include="Assets\RingBuffer.cs" />
      <Compile Include="Assets\Test.cs" />
-     <Compile Include="Assets\Volatile.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
