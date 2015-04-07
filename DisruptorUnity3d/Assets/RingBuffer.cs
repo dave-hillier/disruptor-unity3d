@@ -36,8 +36,9 @@ namespace DisruptorUnity3d
             {
                 Thread.SpinWait(1);
             }
+            var result = this[next]
             _consumerCursor.WriteFullFence(next);
-            return this[next];
+            return result;
         }
 
         public bool TryDequeue(out T obj)
@@ -66,8 +67,8 @@ namespace DisruptorUnity3d
                 Thread.SpinWait(1);
             }
 
-            _producerCursor.WriteUnfenced(next);
             this[next] = element;
+            _producerCursor.WriteUnfenced(next);
         }
 
         public int Count { get { return (int)(_producerCursor.ReadFullFence() - _consumerCursor.ReadFullFence()); } }
@@ -82,6 +83,8 @@ namespace DisruptorUnity3d
             return result;
         }
 
+
+    }
         public static class Volatile
         {
             private const int CacheLineSize = 64;
@@ -240,8 +243,6 @@ namespace DisruptorUnity3d
                 }
             }
         }
-
-    }
 
 
 }
