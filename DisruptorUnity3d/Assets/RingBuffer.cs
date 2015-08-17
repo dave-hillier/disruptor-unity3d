@@ -4,6 +4,10 @@ using System.Threading;
 
 namespace DisruptorUnity3d
 {
+    /// <summary>
+    /// Implementation of the Disruptor pattern
+    /// </summary>
+    /// <typeparam name="T">the type of item to be stored</typeparam>
     public class RingBuffer<T>
     {
         private readonly T[] _entries;
@@ -11,13 +15,21 @@ namespace DisruptorUnity3d
         private Volatile.PaddedLong _consumerCursor = new Volatile.PaddedLong();
         private Volatile.PaddedLong _producerCursor = new Volatile.PaddedLong();
 
-        public RingBuffer(int size)
+        /// <summary>
+        /// Creates a new RingBuffer with the given capacity
+        /// </summary>
+        /// <param name="capacity">The capacity of the buffer</param>
+        /// <remarks>Only a single thread may attempt to consume at any one time</remarks>
+        public RingBuffer(int capacity)
         {
-            size = NextPowerOfTwo(size);
-            _modMask = size - 1;
-            _entries = new T[size];
+            capacity = NextPowerOfTwo(capacity);
+            _modMask = capacity - 1;
+            _entries = new T[capacity];
         }
 
+        /// <summary>
+        /// The maximum number of items that can be stored
+        /// </summary>
         public int Capacity
         {
             get { return _entries.Length; }
@@ -29,6 +41,10 @@ namespace DisruptorUnity3d
             set { unchecked { _entries[index & _modMask] = value; } }
         }
 
+        /// <summary>
+        /// Removes an item from the buffer.
+        /// </summary>
+        /// <returns>The next available item</returns>
         public T Dequeue()
         {
             var next = _consumerCursor.ReadFullFence() + 1;
@@ -41,6 +57,11 @@ namespace DisruptorUnity3d
             return result;
         }
 
+        /// <summary>
+        /// Attempts to remove an items from the queue
+        /// </summary>
+        /// <param name="obj">the items</param>
+        /// <returns>True if successful</returns>
         public bool TryDequeue(out T obj)
         {
             var next = _consumerCursor.ReadFullFence() + 1;
@@ -54,7 +75,11 @@ namespace DisruptorUnity3d
             return true;
         }
 
-        public void Enqueue(T element)
+        /// <summary>
+        /// Add an item to the buffer
+        /// </summary>
+        /// <param name="item"></param>
+        public void Enqueue(T item)
         {
             var next = _producerCursor.ReadFullFence() + 1;
 
@@ -67,10 +92,14 @@ namespace DisruptorUnity3d
                 Thread.SpinWait(1);
             }
 
-            this[next] = element;
+            this[next] = item;
             _producerCursor.WriteUnfenced(next);
         }
 
+        /// <summary>
+        /// The number of items in the buffer
+        /// </summary>
+        /// <remarks>for indicative purposes only, may contain stale data</remarks>
         public int Count { get { return (int)(_producerCursor.ReadFullFence() - _consumerCursor.ReadFullFence()); } }
 
         private static int NextPowerOfTwo(int x)
