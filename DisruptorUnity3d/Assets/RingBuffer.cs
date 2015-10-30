@@ -52,7 +52,7 @@ namespace DisruptorUnity3d
             {
                 Thread.SpinWait(1);
             }
-            var result = this[next]
+            var result = this[next];
             _consumerCursor.WriteFullFence(next);
             return result;
         }
