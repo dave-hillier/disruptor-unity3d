@@ -19,24 +19,37 @@ namespace DisruptorUnity3d
         private Thread _consumerThread;
         private bool _printed = false;
 
+        private int numberToEnqueue;
+
         public void Start()
         {
             Debug.Log("Started Test");
             _consumerThread = new Thread(() =>
             {
                 Debug.Log("Started consumer");
+                int expectedNumber = 0;
+                int previousNumber = 0;
                 for (long i = 0; i < Count; )
                 {
                     int val;
                     var dequeued = Queue.TryDequeue(out val);
                     if (dequeued)
+                    {
+                        if (expectedNumber != val)
+                            Debug.Log("wrong value " + val + " ,correct: " + i + " ,previous: " + previousNumber);
+                        previousNumber = val;
+                        expectedNumber++;
                         ++i;
+                    }
+                        
                 }
                 Debug.Log(string.Format("Consumer done {0}", sw.Elapsed));
             });
             _consumerThread.Start();
             sw.Start();
         }
+
+        
 
         // Update is called once per frame
         public void Update()
@@ -52,7 +65,7 @@ namespace DisruptorUnity3d
             {
                 for (long i = 0; i < BatchSize && _queued < Count; ++i)
                 {
-                    Queue.Enqueue(Rng.Next());
+                    Queue.Enqueue(numberToEnqueue++);
                     ++_queued;
                 }
             }
