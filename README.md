@@ -1,5 +1,5 @@
 # disruptor-unity3d
-Basic, self contained, implementation of Disruptor for Unity3d. Only supports a single producer/single consumer. Only tested on x86 platforms.
+Basic, self contained, implementation of Disruptor for Unity3d. Only supports a single producer/single consumer. Only tested on x86 platforms. Bugs in Mono prevent this is working on iOS/Android before Unity 5.5.
 
 ## Usage
 
