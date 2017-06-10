@@ -187,10 +187,9 @@ namespace System.Threading.Collections
         public void CopyTo(T[] dest, int index)
         {
             IEnumerator<T> e = InternalGetEnumerator();
-            int i = index;
-            while (e.MoveNext())
+            for (int i = index; i < dest.Length && e.MoveNext(); ++i)
             {
-                dest[i++] = e.Current;
+                dest[i] = e.Current;
             }
         }
 
